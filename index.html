@@ -15,7 +15,6 @@
     --text: #ede9e2;
     --text-dim: #9b9a95;
     --amber: #e8a33d;
-    --amber-dim: #6b5326;
     --green: #6fcf97;
     --red: #e0674f;
     --carb: #7fb8d9;
@@ -29,150 +28,76 @@
     padding: 24px 16px 60px;
   }
   .wrap{max-width: 720px; margin: 0 auto;}
-
-  /* ---------- Header ---------- */
-  .header{
-    display:flex; align-items:baseline; justify-content:space-between;
-    margin-bottom: 28px; flex-wrap: wrap; gap: 8px;
-  }
-  .brand{
-    font-family:'Rajdhani', sans-serif; font-weight:700; font-size: 26px;
-    letter-spacing: 0.04em; text-transform: uppercase;
-  }
+  .header{display:flex; align-items:baseline; justify-content:space-between; margin-bottom: 28px; flex-wrap: wrap; gap: 8px;}
+  .brand{font-family:'Rajdhani', sans-serif; font-weight:700; font-size: 26px; letter-spacing: 0.04em; text-transform: uppercase;}
   .brand span{color: var(--amber);}
   .sub{font-size: 12px; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase;}
   #userBadge{font-size:13px; color:var(--text-dim); display:flex; align-items:center; gap:10px;}
-  #logoutBtn{
-    background:none; border:1px solid var(--line); color:var(--text-dim);
-    padding:6px 12px; border-radius:4px; font-size:12px; cursor:pointer; font-family:'Inter';
-  }
+  #logoutBtn{background:none; border:1px solid var(--line); color:var(--text-dim); padding:6px 12px; border-radius:4px; font-size:12px; cursor:pointer; font-family:'Inter';}
   #logoutBtn:hover{border-color:var(--amber); color:var(--amber);}
-
-  /* ---------- Auth screen ---------- */
-  .authCard{
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    padding: 32px 28px;
-    max-width: 380px;
-    margin: 12vh auto;
-  }
+  .authCard{background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 32px 28px; max-width: 380px; margin: 10vh auto;}
   .authCard h1{font-family:'Rajdhani'; font-size: 22px; letter-spacing:0.03em; margin-bottom: 4px; text-transform: uppercase;}
   .authCard p{color: var(--text-dim); font-size: 13px; margin-bottom: 22px;}
   .field{margin-bottom: 14px;}
   .field label{display:block; font-size:11px; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-dim); margin-bottom:6px;}
-  .field input{
-    width:100%; background: var(--bg); border: 1px solid var(--line); color: var(--text);
-    padding: 10px 12px; border-radius: 5px; font-size: 14px; font-family:'Inter';
-  }
+  .field input{width:100%; background: var(--bg); border: 1px solid var(--line); color: var(--text); padding: 10px 12px; border-radius: 5px; font-size: 14px; font-family:'Inter';}
   .field input:focus{outline:none; border-color: var(--amber);}
   .btnRow{display:flex; gap:10px; margin-top:18px;}
-  .btn{
-    flex:1; padding: 11px; border-radius: 5px; border: none; font-weight:600; font-size: 13px;
-    cursor: pointer; font-family:'Inter'; letter-spacing:0.02em;
-  }
+  .btn{flex:1; padding: 11px; border-radius: 5px; border: none; font-weight:600; font-size: 13px; cursor: pointer; font-family:'Inter'; letter-spacing:0.02em;}
   .btn-primary{background: var(--amber); color: #14161a;}
   .btn-primary:hover{background:#f0b258;}
   .btn-ghost{background: transparent; border:1px solid var(--line); color: var(--text-dim);}
   .btn-ghost:hover{border-color:var(--text-dim); color:var(--text);}
   .authMsg{font-size:12px; color: var(--red); margin-top:10px; min-height:14px;}
-
-  /* ---------- Tabs ---------- */
+  .authNote{font-size:11px; color:var(--text-dim); margin-top:14px; line-height:1.5;}
+  .authNote a{color:var(--amber);}
   .tabs{display:flex; gap:6px; margin-bottom:22px; border-bottom:1px solid var(--line);}
-  .tab{
-    padding: 10px 4px; margin-right: 18px; font-size:13px; color: var(--text-dim);
-    cursor:pointer; border-bottom: 2px solid transparent; text-transform:uppercase; letter-spacing:0.05em;
-    font-family:'Rajdhani'; font-weight:600;
-  }
+  .tab{padding: 10px 4px; margin-right: 18px; font-size:13px; color: var(--text-dim); cursor:pointer; border-bottom: 2px solid transparent; text-transform:uppercase; letter-spacing:0.05em; font-family:'Rajdhani'; font-weight:600;}
   .tab.active{color: var(--amber); border-bottom-color: var(--amber);}
-
   .view{display:none;}
   .view.active{display:block;}
-
-  /* ---------- Gauge cluster ---------- */
-  .cluster{
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 24px 16px 10px;
-    display:flex; justify-content: space-around; flex-wrap: wrap; gap: 16px;
-    margin-bottom: 18px;
-  }
+  .cluster{background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 24px 16px 10px; display:flex; justify-content: space-around; flex-wrap: wrap; gap: 16px; margin-bottom: 18px;}
   .gauge{display:flex; flex-direction:column; align-items:center; width: 150px;}
   .gauge svg{display:block;}
-  .gauge-label{
-    font-family:'Rajdhani'; font-size:13px; text-transform:uppercase; letter-spacing:0.08em;
-    color: var(--text-dim); margin-top: 4px;
-  }
+  .gauge-label{font-family:'Rajdhani'; font-size:13px; text-transform:uppercase; letter-spacing:0.08em; color: var(--text-dim); margin-top: 4px;}
   .gauge-remaining{font-family:'JetBrains Mono'; font-size: 22px; font-weight:700; fill: var(--text);}
   .gauge-unit{font-family:'Inter'; font-size:10px; fill: var(--text-dim);}
   .gauge-of{font-family:'JetBrains Mono'; font-size:11px; color: var(--text-dim); margin-top:2px;}
-
-  /* ---------- Secondary stats ---------- */
-  .statRow{
-    display:grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 22px;
-  }
-  .statBox{
-    background: var(--panel-2); border:1px solid var(--line); border-radius:8px;
-    padding: 12px 14px;
-  }
+  .statRow{display:grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 22px;}
+  .statBox{background: var(--panel-2); border:1px solid var(--line); border-radius:8px; padding: 12px 14px;}
   .statBox .n{font-family:'JetBrains Mono'; font-size:18px; font-weight:700;}
   .statBox .l{font-size:11px; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.05em; margin-top:2px;}
-
-  /* ---------- Add entry form ---------- */
-  .card{
-    background: var(--panel); border:1px solid var(--line); border-radius:10px;
-    padding: 18px; margin-bottom: 18px;
-  }
+  .card{background: var(--panel); border:1px solid var(--line); border-radius:10px; padding: 18px; margin-bottom: 18px;}
   .card h2{font-family:'Rajdhani'; font-size:16px; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:14px; color: var(--text);}
   .grid4{display:grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap:8px;}
   .grid4 .field{margin-bottom:0;}
   .extraToggle{font-size:12px; color:var(--amber); cursor:pointer; margin:10px 0 0; display:inline-block;}
   .extraGrid{display:grid; grid-template-columns: 1fr 1fr 1fr; gap:8px; margin-top:10px;}
-  .addBtn{
-    margin-top: 14px; background: var(--amber); color:#14161a; border:none; padding:10px 18px;
-    border-radius:5px; font-weight:600; font-size:13px; cursor:pointer; font-family:'Inter';
-  }
+  .addBtn{margin-top: 14px; background: var(--amber); color:#14161a; border:none; padding:10px 18px; border-radius:5px; font-weight:600; font-size:13px; cursor:pointer; font-family:'Inter';}
   .addBtn:hover{background:#f0b258;}
-
-  /* ---------- Log list ---------- */
-  .logItem{
-    display:flex; justify-content:space-between; align-items:center;
-    padding: 10px 4px; border-bottom: 1px solid var(--line); font-size: 13px;
-  }
+  .addBtn:disabled{opacity:0.5; cursor:not-allowed;}
+  .logItem{display:flex; justify-content:space-between; align-items:center; padding: 10px 4px; border-bottom: 1px solid var(--line); font-size: 13px;}
   .logItem:last-child{border-bottom:none;}
   .logItem .name{font-weight:500;}
   .logItem .macros{color: var(--text-dim); font-family:'JetBrains Mono'; font-size:12px;}
   .logItem .del{background:none; border:none; color:var(--text-dim); cursor:pointer; font-size:16px; line-height:1;}
   .logItem .del:hover{color: var(--red);}
   .empty{color:var(--text-dim); font-size:13px; padding: 10px 0;}
-
-  /* ---------- Calendar ---------- */
   .calHeader{display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;}
   .calHeader button{background:none; border:1px solid var(--line); color:var(--text); padding:6px 12px; border-radius:5px; cursor:pointer;}
   .calTitle{font-family:'Rajdhani'; font-weight:600; letter-spacing:0.04em; text-transform:uppercase;}
   .calGrid{display:grid; grid-template-columns: repeat(7, 1fr); gap:6px;}
   .calDow{text-align:center; font-size:10px; color:var(--text-dim); text-transform:uppercase; padding-bottom:4px;}
-  .calCell{
-    aspect-ratio: 1; border-radius:6px; background: var(--panel-2); border:1px solid var(--line);
-    display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer;
-    font-family:'JetBrains Mono'; font-size:12px; position:relative;
-  }
+  .calCell{aspect-ratio: 1; border-radius:6px; background: var(--panel-2); border:1px solid var(--line); display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; font-family:'JetBrains Mono'; font-size:12px; position:relative;}
   .calCell.empty-cell{background:transparent; border:none; cursor:default;}
   .calCell:hover{border-color: var(--amber);}
-  .calCell.hasData::after{
-    content:''; width:5px; height:5px; border-radius:50%; background: var(--green); position:absolute; bottom:5px;
-  }
+  .calCell.hasData::after{content:''; width:5px; height:5px; border-radius:50%; background: var(--green); position:absolute; bottom:5px;}
   .calCell.today{border-color: var(--amber); color: var(--amber);}
-  .dayDetail{
-    margin-top:16px; background: var(--panel); border:1px solid var(--line); border-radius:10px; padding:16px;
-  }
+  .dayDetail{margin-top:16px; background: var(--panel); border:1px solid var(--line); border-radius:10px; padding:16px;}
   .dayDetail h3{font-family:'Rajdhani'; text-transform:uppercase; letter-spacing:0.04em; margin-bottom:10px;}
-
-  /* ---------- Goals ---------- */
   .goalsGrid{display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px;}
   .saveMsg{font-size:12px; color: var(--green); margin-top:10px; min-height:14px;}
-
+  .loadingScreen{text-align:center; color:var(--text-dim); font-size:13px; margin-top:20vh;}
   @media (max-width: 480px){
     .grid4{grid-template-columns: 1fr 1fr;}
     .goalsGrid{grid-template-columns:1fr;}
@@ -182,16 +107,14 @@
 <body>
 <div class="wrap">
 
-  <!-- AUTH SCREEN -->
-  <div id="authScreen" class="authCard">
-    <div id="storageWarning" style="display:none; background:#3a2320; border:1px solid var(--red); color:#f0a898; font-size:12px; padding:10px 12px; border-radius:6px; margin-bottom:16px;">
-      Lagringen er ikke tilgjengelig akkurat nå. Dette skjer vanligvis hvis siden er lastet ned og åpnet direkte i nettleseren i stedet for å vises inne i Claude-vinduet. Åpne siden fra Claude-samtalen (artefakt-visningen) for at innlogging og lagring skal fungere, eller last siden på nytt.
-    </div>
+  <div id="loadingScreen" class="loadingScreen">Kobler til...</div>
+
+  <div id="authScreen" class="authCard" style="display:none;">
     <h1>TSJ-Cal</h1>
     <p>Logg inn for å registrere dagens forbruk.</p>
     <div class="field">
-      <label>Brukernavn</label>
-      <input id="authUser" type="text" autocomplete="username">
+      <label>E-post</label>
+      <input id="authEmail" type="email" autocomplete="username">
     </div>
     <div class="field">
       <label>Passord</label>
@@ -202,9 +125,9 @@
       <button class="btn btn-ghost" id="registerBtn">Opprett bruker</button>
     </div>
     <div class="authMsg" id="authMsg"></div>
+    <div class="authNote">Passord må være minst 6 tegn. Alle kan opprette sin egen konto — dataene lagres separat per bruker i Firebase.</div>
   </div>
 
-  <!-- APP -->
   <div id="app" style="display:none;">
     <div class="header">
       <div>
@@ -220,12 +143,9 @@
       <div class="tab" data-tab="goals">Mål</div>
     </div>
 
-    <!-- TODAY VIEW -->
     <div class="view active" id="view-today">
       <div class="cluster" id="gaugeCluster"></div>
-
       <div class="statRow" id="statRow"></div>
-
       <div class="card">
         <h2>Registrer måltid</h2>
         <div class="grid4">
@@ -242,14 +162,12 @@
         </div>
         <button class="addBtn" id="addEntryBtn">Legg til</button>
       </div>
-
       <div class="card">
         <h2>Dagens logg</h2>
         <div id="logList"></div>
       </div>
     </div>
 
-    <!-- CALENDAR VIEW -->
     <div class="view" id="view-calendar">
       <div class="card">
         <div class="calHeader">
@@ -262,7 +180,6 @@
       <div class="dayDetail" id="dayDetail" style="display:none;"></div>
     </div>
 
-    <!-- GOALS VIEW -->
     <div class="view" id="view-goals">
       <div class="card">
         <h2>Daglige mål</h2>
@@ -278,10 +195,35 @@
   </div>
 </div>
 
-<script>
-let currentUser = null;
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+  onAuthStateChanged, signOut, setPersistence, browserLocalPersistence
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {
+  getFirestore, doc, getDoc, setDoc, collection
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+// ======================================================================
+// BYTT UT MED DITT EGET FIREBASE-PROSJEKT (Firebase Console -> Project settings -> SDK setup and configuration)
+// ======================================================================
+const firebaseConfig = {
+  apiKey: "AIzaSyD4rmteTHELgUHjMwnE1O5r-_x-BO45OCc",
+  authDomain: "tsj-cal.firebaseapp.com",
+  projectId: "tsj-cal",
+  storageBucket: "tsj-cal.firebasestorage.app",
+  messagingSenderId: "1059035966632",
+  appId: "1:1059035966632:web:edb0fcf1e1438eb462669d"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+let currentUser = null; // Firebase user object
 let goals = { calories: 2200, protein: 150, carbs: 250 };
-let calState = { year: null, month: null, selectedDate: null };
+let calState = { year: null, month: null };
 
 function todayISO(){
   const d = new Date();
@@ -291,86 +233,97 @@ function fmtDateLabel(iso){
   const d = new Date(iso + 'T00:00:00');
   return d.toLocaleDateString('no-NO', { weekday:'long', day:'numeric', month:'long' });
 }
-
-// ---------- STORAGE HELPERS ----------
-async function waitForStorage(timeoutMs){
-  const start = Date.now();
-  while(typeof window.storage === 'undefined'){
-    if(Date.now() - start > timeoutMs) return false;
-    await new Promise(r => setTimeout(r, 100));
-  }
-  return true;
+function escapeHTML(str){
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+function sumEntries(entries, key){
+  return entries.reduce((s, e) => s + (Number(e[key]) || 0), 0);
 }
 
-function showStorageWarning(){
-  const banner = document.getElementById('storageWarning');
-  if(banner) banner.style.display = 'block';
+// ---------- FIRESTORE HELPERS ----------
+async function getUserDoc(){
+  const snap = await getDoc(doc(db, 'users', currentUser.uid));
+  return snap.exists() ? snap.data() : null;
 }
-
-async function sGet(key){
-  const ready = await waitForStorage(3000);
-  if(!ready){ showStorageWarning(); return null; }
-  try{ const r = await window.storage.get(key, true); return r ? JSON.parse(r.value) : null; }
-  catch(e){ return null; }
+async function saveUserGoals(newGoals){
+  await setDoc(doc(db, 'users', currentUser.uid), { goals: newGoals }, { merge: true });
 }
-async function sSet(key, val){
-  const ready = await waitForStorage(3000);
-  if(!ready){ showStorageWarning(); return false; }
-  try{ await window.storage.set(key, JSON.stringify(val), true); return true; }
-  catch(e){ console.error('Lagringsfeil', e); return false; }
+async function getDayLog(dateISO){
+  const snap = await getDoc(doc(db, 'users', currentUser.uid, 'logs', dateISO));
+  return snap.exists() ? snap.data() : { entries: [] };
+}
+async function saveDayLog(dateISO, log){
+  await setDoc(doc(db, 'users', currentUser.uid, 'logs', dateISO), log);
 }
 
 // ---------- AUTH ----------
+setPersistence(auth, browserLocalPersistence).catch(() => {});
+
 document.getElementById('registerBtn').addEventListener('click', async () => {
-  const user = document.getElementById('authUser').value.trim().toLowerCase();
+  const email = document.getElementById('authEmail').value.trim();
   const pass = document.getElementById('authPass').value;
   const msg = document.getElementById('authMsg');
   msg.style.color = 'var(--red)';
-  if(!user || !pass){ msg.textContent = 'Fyll ut brukernavn og passord.'; return; }
-  const existing = await sGet('users:' + user);
-  if(existing){ msg.textContent = 'Brukernavnet er allerede tatt.'; return; }
-  const ok = await sSet('users:' + user, {
-    password: pass,
-    goals: { calories: 2200, protein: 150, carbs: 250 }
-  });
-  if(!ok){ msg.textContent = 'Kunne ikke opprette bruker. Prøv igjen.'; return; }
-  msg.style.color = 'var(--green)';
-  msg.textContent = 'Bruker opprettet. Du kan logge inn.';
+  if(!email || !pass){ msg.textContent = 'Fyll ut e-post og passord.'; return; }
+  try{
+    const cred = await createUserWithEmailAndPassword(auth, email, pass);
+    await setDoc(doc(db, 'users', cred.user.uid), {
+      goals: { calories: 2200, protein: 150, carbs: 250 }
+    });
+    msg.style.color = 'var(--green)';
+    msg.textContent = 'Bruker opprettet! Du blir logget inn automatisk.';
+  } catch(e){
+    msg.textContent = oversettFeil(e.code);
+  }
 });
 
 document.getElementById('loginBtn').addEventListener('click', async () => {
-  const user = document.getElementById('authUser').value.trim().toLowerCase();
+  const email = document.getElementById('authEmail').value.trim();
   const pass = document.getElementById('authPass').value;
   const msg = document.getElementById('authMsg');
   msg.style.color = 'var(--red)';
-  if(!user || !pass){ msg.textContent = 'Fyll ut brukernavn og passord.'; return; }
-  const rec = await sGet('users:' + user);
-  if(!rec || rec.password !== pass){ msg.textContent = 'Feil brukernavn eller passord.'; return; }
-  currentUser = user;
-  await enterApp();
+  if(!email || !pass){ msg.textContent = 'Fyll ut e-post og passord.'; return; }
+  try{
+    await signInWithEmailAndPassword(auth, email, pass);
+  } catch(e){
+    msg.textContent = oversettFeil(e.code);
+  }
 });
 
-document.getElementById('logoutBtn')?.addEventListener('click', () => {
-  currentUser = null;
-  document.getElementById('app').style.display = 'none';
-  document.getElementById('authScreen').style.display = 'block';
-  document.getElementById('authUser').value = '';
-  document.getElementById('authPass').value = '';
-});
+function oversettFeil(code){
+  const map = {
+    'auth/email-already-in-use': 'Denne e-posten er allerede registrert.',
+    'auth/invalid-email': 'Ugyldig e-postadresse.',
+    'auth/weak-password': 'Passordet må være minst 6 tegn.',
+    'auth/user-not-found': 'Fant ingen bruker med denne e-posten.',
+    'auth/wrong-password': 'Feil passord.',
+    'auth/invalid-credential': 'Feil e-post eller passord.',
+    'auth/too-many-requests': 'For mange forsøk. Prøv igjen senere.'
+  };
+  return map[code] || ('Noe gikk galt: ' + code);
+}
 
-async function enterApp(){
-  document.getElementById('authScreen').style.display = 'none';
-  document.getElementById('app').style.display = 'block';
-  document.getElementById('userBadge').innerHTML =
-    currentUser + ' <button id="logoutBtn">Logg ut</button>';
-  document.getElementById('logoutBtn').addEventListener('click', () => {
+onAuthStateChanged(auth, async (user) => {
+  document.getElementById('loadingScreen').style.display = 'none';
+  if(user){
+    currentUser = user;
+    document.getElementById('authScreen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    document.getElementById('userBadge').innerHTML = escapeHTML(user.email) + ' <button id="logoutBtn">Logg ut</button>';
+    document.getElementById('logoutBtn').addEventListener('click', () => signOut(auth));
+    await enterApp();
+  } else {
     currentUser = null;
     document.getElementById('app').style.display = 'none';
     document.getElementById('authScreen').style.display = 'block';
-  });
+  }
+});
 
-  const userRec = await sGet('users:' + currentUser);
-  if(userRec && userRec.goals) goals = userRec.goals;
+async function enterApp(){
+  const rec = await getUserDoc();
+  if(rec && rec.goals) goals = rec.goals;
   document.getElementById('gCal').value = goals.calories;
   document.getElementById('gProt').value = goals.protein;
   document.getElementById('gCarb').value = goals.carbs;
@@ -394,7 +347,6 @@ document.querySelectorAll('.tab').forEach(tab => {
   });
 });
 
-// ---------- EXTRA FIELDS TOGGLE ----------
 document.getElementById('extraToggle').addEventListener('click', () => {
   const g = document.getElementById('extraGrid');
   const showing = g.style.display !== 'none';
@@ -402,16 +354,14 @@ document.getElementById('extraToggle').addEventListener('click', () => {
   document.getElementById('extraToggle').textContent = showing ? '+ Fett, fiber, sukker' : '– Skjul ekstra felt';
 });
 
-// ---------- GAUGE RENDERING ----------
+// ---------- GAUGES ----------
 function gaugeSVG(label, consumed, goal, unit, color){
   const remaining = Math.max(goal - consumed, 0);
   const over = consumed > goal;
   const frac = Math.min(consumed / (goal || 1), 1);
   const r = 52, cx = 65, cy = 65;
-  const startAngle = 180, endAngle = 0; // semicircle, left to right (top half)
-  // full arc path (background)
   const describeArc = (fraction) => {
-    const angle = 180 - fraction * 180; // degrees, from 180 down to 0
+    const angle = 180 - fraction * 180;
     const rad = (angle * Math.PI) / 180;
     const x = cx + r * Math.cos(rad);
     const y = cy - r * Math.sin(rad);
@@ -433,14 +383,10 @@ function gaugeSVG(label, consumed, goal, unit, color){
   `;
 }
 
-function sumEntries(entries, key){
-  return entries.reduce((s, e) => s + (Number(e[key]) || 0), 0);
-}
-
 async function renderToday(){
   const date = todayISO();
-  const log = (await sGet('logs:' + currentUser + ':' + date)) || { entries: [] };
-  const entries = log.entries;
+  const log = await getDayLog(date);
+  const entries = log.entries || [];
 
   const cal = sumEntries(entries, 'cal');
   const prot = sumEntries(entries, 'prot');
@@ -476,23 +422,21 @@ async function renderToday(){
     `).join('');
     listEl.querySelectorAll('.del').forEach(btn => {
       btn.addEventListener('click', async () => {
-        const log2 = (await sGet('logs:' + currentUser + ':' + date)) || { entries: [] };
-        log2.entries = log2.entries.filter(en => en.id !== btn.dataset.id);
-        await sSet('logs:' + currentUser + ':' + date, log2);
+        const log2 = await getDayLog(date);
+        log2.entries = (log2.entries || []).filter(en => en.id !== btn.dataset.id);
+        await saveDayLog(date, log2);
         await renderToday();
       });
     });
   }
 }
 
-function escapeHTML(str){
-  const d = document.createElement('div');
-  d.textContent = str;
-  return d.innerHTML;
-}
-
 document.getElementById('addEntryBtn').addEventListener('click', async () => {
+  const btn = document.getElementById('addEntryBtn');
   const name = document.getElementById('fName').value.trim();
+  if(!name){ document.getElementById('fName').focus(); return; }
+  btn.disabled = true;
+
   const cal = Number(document.getElementById('fCal').value) || 0;
   const prot = Number(document.getElementById('fProt').value) || 0;
   const carb = Number(document.getElementById('fCarb').value) || 0;
@@ -500,17 +444,17 @@ document.getElementById('addEntryBtn').addEventListener('click', async () => {
   const fiber = Number(document.getElementById('fFiber').value) || 0;
   const sugar = Number(document.getElementById('fSugar').value) || 0;
 
-  if(!name){ document.getElementById('fName').focus(); return; }
-
   const date = todayISO();
-  const log = (await sGet('logs:' + currentUser + ':' + date)) || { entries: [] };
+  const log = await getDayLog(date);
+  log.entries = log.entries || [];
   log.entries.push({
     id: Date.now().toString(36) + Math.random().toString(36).slice(2,6),
     name, cal, prot, carb, fat, fiber, sugar
   });
-  await sSet('logs:' + currentUser + ':' + date, log);
+  await saveDayLog(date, log);
 
   ['fName','fCal','fProt','fCarb','fFat','fFiber','fSugar'].forEach(id => document.getElementById(id).value = '');
+  btn.disabled = false;
   await renderToday();
 });
 
@@ -522,19 +466,17 @@ document.getElementById('saveGoalsBtn').addEventListener('click', async () => {
     carbs: Number(document.getElementById('gCarb').value) || 0
   };
   const msg = document.getElementById('goalsMsg');
-  const userRec = (await sGet('users:' + currentUser)) || { password: '' };
-  userRec.goals = newGoals;
-  const ok = await sSet('users:' + currentUser, userRec);
-  if(!ok){
+  try{
+    await saveUserGoals(newGoals);
+    goals = newGoals;
+    msg.style.color = 'var(--green)';
+    msg.textContent = 'Mål lagret.';
+    setTimeout(() => msg.textContent = '', 2000);
+    await renderToday();
+  } catch(e){
     msg.style.color = 'var(--red)';
     msg.textContent = 'Kunne ikke lagre. Prøv igjen.';
-    return;
   }
-  goals = newGoals;
-  msg.style.color = 'var(--green)';
-  msg.textContent = 'Mål lagret.';
-  setTimeout(() => msg.textContent = '', 2000);
-  await renderToday();
 });
 
 // ---------- CALENDAR ----------
@@ -560,7 +502,7 @@ async function renderCalendar(){
   grid.innerHTML = DOW.map(d => `<div class="calDow">${d}</div>`).join('');
 
   const firstDay = new Date(year, month, 1);
-  let startOffset = firstDay.getDay() - 1; // Monday = 0
+  let startOffset = firstDay.getDay() - 1;
   if(startOffset < 0) startOffset = 6;
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const today = todayISO();
@@ -571,8 +513,8 @@ async function renderCalendar(){
 
   for(let day = 1; day <= daysInMonth; day++){
     const iso = year + '-' + String(month+1).padStart(2,'0') + '-' + String(day).padStart(2,'0');
-    const log = await sGet('logs:' + currentUser + ':' + iso);
-    const hasData = log && log.entries && log.entries.length > 0;
+    const log = await getDayLog(iso);
+    const hasData = log.entries && log.entries.length > 0;
     const isToday = iso === today;
     const cell = document.createElement('div');
     cell.className = 'calCell' + (hasData ? ' hasData' : '') + (isToday ? ' today' : '');
@@ -583,8 +525,8 @@ async function renderCalendar(){
 }
 
 async function showDayDetail(iso){
-  const log = (await sGet('logs:' + currentUser + ':' + iso)) || { entries: [] };
-  const entries = log.entries;
+  const log = await getDayLog(iso);
+  const entries = log.entries || [];
   const cal = sumEntries(entries, 'cal');
   const prot = sumEntries(entries, 'prot');
   const carb = sumEntries(entries, 'carb');
