@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tankstasjon — Daglig ernæringslogg</title>
+<title>TSJ-Cal — Daglig ernæringslogg</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -184,7 +184,10 @@
 
   <!-- AUTH SCREEN -->
   <div id="authScreen" class="authCard">
-    <h1>Tankstasjon</h1>
+    <div id="storageWarning" style="display:none; background:#3a2320; border:1px solid var(--red); color:#f0a898; font-size:12px; padding:10px 12px; border-radius:6px; margin-bottom:16px;">
+      Lagringen er ikke tilgjengelig akkurat nå. Dette skjer vanligvis hvis siden er lastet ned og åpnet direkte i nettleseren i stedet for å vises inne i Claude-vinduet. Åpne siden fra Claude-samtalen (artefakt-visningen) for at innlogging og lagring skal fungere, eller last siden på nytt.
+    </div>
+    <h1>TSJ-Cal</h1>
     <p>Logg inn for å registrere dagens forbruk.</p>
     <div class="field">
       <label>Brukernavn</label>
@@ -205,7 +208,7 @@
   <div id="app" style="display:none;">
     <div class="header">
       <div>
-        <div class="brand">Tank<span>stasjon</span></div>
+        <div class="brand">TSJ-<span>Cal</span></div>
         <div class="sub" id="dateLabel">—</div>
       </div>
       <div id="userBadge"></div>
@@ -290,11 +293,29 @@ function fmtDateLabel(iso){
 }
 
 // ---------- STORAGE HELPERS ----------
+async function waitForStorage(timeoutMs){
+  const start = Date.now();
+  while(typeof window.storage === 'undefined'){
+    if(Date.now() - start > timeoutMs) return false;
+    await new Promise(r => setTimeout(r, 100));
+  }
+  return true;
+}
+
+function showStorageWarning(){
+  const banner = document.getElementById('storageWarning');
+  if(banner) banner.style.display = 'block';
+}
+
 async function sGet(key){
+  const ready = await waitForStorage(3000);
+  if(!ready){ showStorageWarning(); return null; }
   try{ const r = await window.storage.get(key, true); return r ? JSON.parse(r.value) : null; }
   catch(e){ return null; }
 }
 async function sSet(key, val){
+  const ready = await waitForStorage(3000);
+  if(!ready){ showStorageWarning(); return false; }
   try{ await window.storage.set(key, JSON.stringify(val), true); return true; }
   catch(e){ console.error('Lagringsfeil', e); return false; }
 }
