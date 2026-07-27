@@ -56,13 +56,25 @@
   .tab.active{color: var(--amber); border-bottom-color: var(--amber);}
   .view{display:none;}
   .view.active{display:block;}
-  .cluster{background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 24px 16px 10px; display:flex; justify-content: space-around; flex-wrap: wrap; gap: 16px; margin-bottom: 18px;}
-  .gauge{display:flex; flex-direction:column; align-items:center; width: 150px;}
-  .gauge svg{display:block;}
-  .gauge-label{font-family:'Rajdhani'; font-size:13px; text-transform:uppercase; letter-spacing:0.08em; color: var(--text-dim); margin-top: 4px;}
-  .gauge-remaining{font-family:'JetBrains Mono'; font-size: 22px; font-weight:700; fill: var(--text);}
-  .gauge-unit{font-family:'Inter'; font-size:10px; fill: var(--text-dim);}
-  .gauge-of{font-family:'JetBrains Mono'; font-size:11px; color: var(--text-dim); margin-top:2px;}
+  .cluster{margin-bottom: 18px;}
+  .ringCard{background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 28px 16px 22px; display:flex; justify-content:center; margin-bottom: 14px;}
+  .ringSvgWrap{position:relative; width:220px; height:220px;}
+  .ringSvgWrap svg{display:block; width:100%; height:100%;}
+  .ringCenter{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;}
+  .ringBig{font-family:'Rajdhani'; font-weight:700; font-size:44px; color:var(--text); line-height:1;}
+  .ringSub{font-size:13px; color:var(--text-dim); margin-top:2px;}
+  .ringBadge{margin-top:12px; font-size:12.5px; font-weight:600; padding:6px 14px; border-radius:20px;}
+  .macroGrid{display:grid; grid-template-columns: 1fr 1fr; gap:12px;}
+  .macroCard{border-radius:16px; padding:16px; position:relative; color:#fff; overflow:hidden;}
+  .macroCard.protein{background: linear-gradient(135deg, #ff7a8f 0%, #c73a56 100%);}
+  .macroCard.carbs{background: linear-gradient(135deg, #22d1cc 0%, #0f8f8c 100%);}
+  .macroCard .icon{width:34px; height:34px; border-radius:10px; background:rgba(255,255,255,0.2); display:flex; align-items:center; justify-content:center; font-size:16px; margin-bottom:12px;}
+  .macroCard .pct{position:absolute; top:16px; right:16px; font-family:'JetBrains Mono'; font-weight:700; font-size:12.5px; opacity:0.9;}
+  .macroCard .big{font-family:'Rajdhani'; font-weight:700; font-size:30px; line-height:1;}
+  .macroCard .label{font-size:13px; opacity:0.9; margin-top:3px;}
+  .macroCard .bar{height:5px; background:rgba(255,255,255,0.28); border-radius:3px; margin-top:14px; overflow:hidden;}
+  .macroCard .bar-fill{height:100%; background:#fff; border-radius:3px;}
+  .macroCard .goalText{font-size:11.5px; opacity:0.8; margin-top:8px;}
   .statRow{display:grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 22px;}
   .statBox{background: var(--panel-2); border:1px solid var(--line); border-radius:8px; padding: 12px 14px;}
   .statBox .n{font-family:'JetBrains Mono'; font-size:18px; font-weight:700;}
@@ -108,12 +120,18 @@
     .tabs{overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; margin-bottom:16px;}
     .tabs::-webkit-scrollbar{display:none;}
     .tab{margin-right:14px; font-size:12px; white-space:nowrap; padding-bottom:8px;}
-    .cluster{padding: 16px 4px 4px; gap: 4px; justify-content:space-between;}
-    .gauge{width: 31%; min-width:0;}
-    .gauge svg{width:100%; height:auto;}
-    .gauge-remaining{font-size:18px;}
-    .gauge-label{font-size:10.5px; margin-top:2px;}
-    .gauge-of{font-size:9.5px;}
+    .ringCard{padding: 20px 8px 18px;}
+    .ringSvgWrap{width:170px; height:170px;}
+    .ringBig{font-size:34px;}
+    .ringSub{font-size:11.5px;}
+    .ringBadge{font-size:11px; padding:5px 12px; margin-top:8px;}
+    .macroGrid{gap:8px;}
+    .macroCard{padding:12px;}
+    .macroCard .icon{width:28px; height:28px; font-size:14px; margin-bottom:8px;}
+    .macroCard .big{font-size:23px;}
+    .macroCard .label{font-size:11.5px;}
+    .macroCard .pct{font-size:11px; top:12px; right:12px;}
+    .macroCard .goalText{font-size:10.5px;}
     .statRow{gap:6px; margin-bottom:16px;}
     .statBox{padding:9px 8px;}
     .statBox .n{font-size:15px;}
@@ -136,8 +154,8 @@
     .btnRow{flex-direction:column;}
   }
   @media (max-width: 360px){
-    .gauge-remaining{font-size:15px;}
-    .gauge-label{font-size:9.5px;}
+    .ringSvgWrap{width:150px; height:150px;}
+    .ringBig{font-size:28px;}
   }
 </style>
 </head>
@@ -246,7 +264,7 @@ import {
 // BYTT UT MED DITT EGET FIREBASE-PROSJEKT (Firebase Console -> Project settings -> SDK setup and configuration)
 // ======================================================================
 const firebaseConfig = {
-  apiKey: "AIzaSyD4rmteTHELgUHjMwnE1O5r-_x-BO45OCc",
+ apiKey: "AIzaSyD4rmteTHELgUHjMwnE1O5r-_x-BO45OCc",
   authDomain: "tsj-cal.firebaseapp.com",
   projectId: "tsj-cal",
   storageBucket: "tsj-cal.firebasestorage.app",
@@ -391,32 +409,44 @@ document.getElementById('extraToggle').addEventListener('click', () => {
   document.getElementById('extraToggle').textContent = showing ? '+ Fett, fiber, sukker' : '– Skjul ekstra felt';
 });
 
-// ---------- GAUGES ----------
-function gaugeSVG(label, consumed, goal, unit, color){
-  const remaining = Math.max(goal - consumed, 0);
+// ---------- CALORIE RING + MACRO CARDS ----------
+function calorieRingHTML(consumed, goal){
   const over = consumed > goal;
   const frac = Math.min(consumed / (goal || 1), 1);
-  const r = 52, cx = 65, cy = 65;
-  const describeArc = (fraction) => {
-    const angle = 180 - fraction * 180;
-    const rad = (angle * Math.PI) / 180;
-    const x = cx + r * Math.cos(rad);
-    const y = cy - r * Math.sin(rad);
-    const largeArc = fraction > 0.5 ? 1 : 0;
-    return `M ${cx - r} ${cy} A ${r} ${r} 0 ${largeArc} 1 ${x} ${y}`;
-  };
-  const bgArc = `M ${cx - r} ${cy} A ${r} ${r} 0 1 1 ${cx + r} ${cy}`;
-  const fillArc = frac > 0 ? describeArc(frac) : '';
-  const arcColor = over ? 'var(--red)' : color;
+  const pct = Math.round((consumed / (goal || 1)) * 100);
+  const r = 85, c = 2 * Math.PI * r;
+  const offset = c * (1 - frac);
+  const color = over ? 'var(--red)' : 'var(--amber)';
   return `
-    <svg width="130" height="80" viewBox="0 0 130 80">
-      <path d="${bgArc}" fill="none" stroke="#33363d" stroke-width="10" stroke-linecap="round"/>
-      ${fillArc ? `<path d="${fillArc}" fill="none" stroke="${arcColor}" stroke-width="10" stroke-linecap="round"/>` : ''}
-      <text x="65" y="58" text-anchor="middle" class="gauge-remaining">${remaining}</text>
-      <text x="65" y="72" text-anchor="middle" class="gauge-unit">${unit} igjen</text>
-    </svg>
-    <div class="gauge-label">${label}</div>
-    <div class="gauge-of">${consumed} / ${goal} ${unit}</div>
+    <div class="ringSvgWrap">
+      <svg viewBox="0 0 200 200" width="220" height="220">
+        <circle cx="100" cy="100" r="${r}" fill="none" stroke="#2b2e34" stroke-width="14"/>
+        <circle cx="100" cy="100" r="${r}" fill="none" stroke="${color}" stroke-width="14"
+          stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${offset}"
+          transform="rotate(-90 100 100)"/>
+      </svg>
+      <div class="ringCenter">
+        <div class="ringBig">${consumed}</div>
+        <div class="ringSub">av ${goal} kcal</div>
+        <div class="ringBadge" style="color:${color}; background:${over ? 'rgba(224,103,79,0.15)' : 'rgba(232,163,61,0.15)'};">${pct}% fullført</div>
+      </div>
+    </div>
+  `;
+}
+
+function macroCardHTML(label, icon, consumed, goal, unit, cssClass){
+  const over = consumed > goal;
+  const pct = Math.round((consumed / (goal || 1)) * 100);
+  const frac = Math.min(consumed / (goal || 1), 1) * 100;
+  return `
+    <div class="macroCard ${cssClass}">
+      <div class="icon">${icon}</div>
+      <div class="pct">${over ? '⚠ ' : ''}${pct}%</div>
+      <div class="big">${consumed}${unit}</div>
+      <div class="label">${label}</div>
+      <div class="bar"><div class="bar-fill" style="width:${frac}%;"></div></div>
+      <div class="goalText">Mål: ${goal}${unit}</div>
+    </div>
   `;
 }
 
@@ -433,9 +463,11 @@ async function renderToday(){
   const sugar = sumEntries(entries, 'sugar');
 
   document.getElementById('gaugeCluster').innerHTML = `
-    <div class="gauge">${gaugeSVG('Kalorier', cal, goals.calories, 'kcal', 'var(--amber)')}</div>
-    <div class="gauge">${gaugeSVG('Protein', prot, goals.protein, 'g', 'var(--green)')}</div>
-    <div class="gauge">${gaugeSVG('Karbo', carb, goals.carbs, 'g', 'var(--carb)')}</div>
+    <div class="ringCard">${calorieRingHTML(cal, goals.calories)}</div>
+    <div class="macroGrid">
+      ${macroCardHTML('Protein', '🥩', prot, goals.protein, 'g', 'protein')}
+      ${macroCardHTML('Karbo', '🌾', carb, goals.carbs, 'g', 'carbs')}
+    </div>
   `;
 
   document.getElementById('statRow').innerHTML = `
