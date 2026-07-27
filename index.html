@@ -98,9 +98,46 @@
   .goalsGrid{display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px;}
   .saveMsg{font-size:12px; color: var(--green); margin-top:10px; min-height:14px;}
   .loadingScreen{text-align:center; color:var(--text-dim); font-size:13px; margin-top:20vh;}
-  @media (max-width: 480px){
-    .grid4{grid-template-columns: 1fr 1fr;}
-    .goalsGrid{grid-template-columns:1fr;}
+  @media (max-width: 600px){
+    body{padding: 14px 10px 50px;}
+    .authCard{margin: 6vh auto; padding: 26px 20px; max-width: 100%;}
+    .header{gap: 4px;}
+    .brand{font-size: 21px;}
+    .sub{font-size: 10.5px;}
+    #userBadge{font-size:11px; width:100%; justify-content:space-between;}
+    .tabs{overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; margin-bottom:16px;}
+    .tabs::-webkit-scrollbar{display:none;}
+    .tab{margin-right:14px; font-size:12px; white-space:nowrap; padding-bottom:8px;}
+    .cluster{padding: 16px 4px 4px; gap: 4px; justify-content:space-between;}
+    .gauge{width: 31%; min-width:0;}
+    .gauge svg{width:100%; height:auto;}
+    .gauge-remaining{font-size:18px;}
+    .gauge-label{font-size:10.5px; margin-top:2px;}
+    .gauge-of{font-size:9.5px;}
+    .statRow{gap:6px; margin-bottom:16px;}
+    .statBox{padding:9px 8px;}
+    .statBox .n{font-size:15px;}
+    .statBox .l{font-size:9.5px;}
+    .card{padding:14px;}
+    .card h2{font-size:14px; margin-bottom:10px;}
+    .grid4{grid-template-columns: 1fr 1fr; gap:8px;}
+    .grid4 .field:first-child{grid-column: 1 / -1;}
+    .extraGrid{grid-template-columns: 1fr 1fr;}
+    .field input{padding: 9px 10px; font-size:16px;}
+    .addBtn{width:100%;}
+    .logItem{font-size:12.5px;}
+    .logItem .macros{font-size:11px;}
+    .goalsGrid{grid-template-columns:1fr; gap:8px;}
+    .calGrid{gap:4px;}
+    .calCell{font-size:11px; border-radius:5px;}
+    .calDow{font-size:9px;}
+    .calHeader button{padding:5px 10px;}
+    .dayDetail{padding:14px;}
+    .btnRow{flex-direction:column;}
+  }
+  @media (max-width: 360px){
+    .gauge-remaining{font-size:15px;}
+    .gauge-label{font-size:9.5px;}
   }
 </style>
 </head>
