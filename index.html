@@ -8,20 +8,22 @@
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg: #14161a;
-    --panel: #1c1e22;
-    --panel-2: #22252b;
-    --line: #33363d;
-    --text: #ede9e2;
-    --text-dim: #9b9a95;
-    --amber: #e8a33d;
-    --green: #6fcf97;
+    --bg: #f6f5f2;
+    --panel: #ffffff;
+    --panel-2: #f5f4f1;
+    --line: #ebe9e4;
+    --text: #232323;
+    --text-dim: #8a8781;
+    --amber: #e8963d;
+    --green: #2fae72;
     --red: #e0674f;
-    --carb: #7fb8d9;
+    --carb: #1aa6a0;
+    --shadow: 0 2px 14px rgba(30,25,15,0.06);
+    --shadow-sm: 0 1px 4px rgba(30,25,15,0.05);
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   body{
-    background: radial-gradient(ellipse at top, #1a1c21 0%, #0f1013 100%);
+    background: linear-gradient(180deg, #fbfaf8 0%, #f3f1ec 100%);
     color: var(--text);
     font-family: 'Inter', sans-serif;
     min-height: 100vh;
@@ -33,14 +35,14 @@
   .brand span{color: var(--amber);}
   .sub{font-size: 12px; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase;}
   #userBadge{font-size:13px; color:var(--text-dim); display:flex; align-items:center; gap:10px;}
-  #logoutBtn{background:none; border:1px solid var(--line); color:var(--text-dim); padding:6px 12px; border-radius:4px; font-size:12px; cursor:pointer; font-family:'Inter';}
+  #logoutBtn{background: var(--panel-2); border:none; color:var(--text-dim); padding:6px 12px; border-radius:8px; font-size:12px; cursor:pointer; font-family:'Inter';}
   #logoutBtn:hover{border-color:var(--amber); color:var(--amber);}
-  .authCard{background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 32px 28px; max-width: 380px; margin: 10vh auto;}
+  .authCard{background: var(--panel); border: none; box-shadow: var(--shadow); border-radius: 20px; padding: 34px 26px; max-width: 380px; margin: 10vh auto;}
   .authCard h1{font-family:'Rajdhani'; font-size: 22px; letter-spacing:0.03em; margin-bottom: 4px; text-transform: uppercase;}
   .authCard p{color: var(--text-dim); font-size: 13px; margin-bottom: 22px;}
   .field{margin-bottom: 14px;}
   .field label{display:block; font-size:11px; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-dim); margin-bottom:6px;}
-  .field input{width:100%; background: var(--bg); border: 1px solid var(--line); color: var(--text); padding: 10px 12px; border-radius: 5px; font-size: 14px; font-family:'Inter';}
+  .field input{width:100%; background: var(--panel-2); border: 1px solid var(--line); color: var(--text); padding: 11px 13px; border-radius: 10px; font-size: 14px; font-family:'Inter'; transition: border-color 0.15s;}
   .field input:focus{outline:none; border-color: var(--amber);}
   .btnRow{display:flex; gap:10px; margin-top:18px;}
   .btn{flex:1; padding: 11px; border-radius: 5px; border: none; font-weight:600; font-size: 13px; cursor: pointer; font-family:'Inter'; letter-spacing:0.02em;}
@@ -57,7 +59,7 @@
   .view{display:none;}
   .view.active{display:block;}
   .cluster{margin-bottom: 18px;}
-  .ringCard{background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 28px 16px 22px; display:flex; justify-content:center; margin-bottom: 14px;}
+  .ringCard{background: var(--panel); border: none; box-shadow: var(--shadow); border-radius: 22px; padding: 30px 16px 24px; display:flex; justify-content:center; margin-bottom: 14px;}
   .ringSvgWrap{position:relative; width:220px; height:220px;}
   .ringSvgWrap svg{display:block; width:100%; height:100%;}
   .ringCenter{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;}
@@ -65,7 +67,7 @@
   .ringSub{font-size:13px; color:var(--text-dim); margin-top:2px;}
   .ringBadge{margin-top:12px; font-size:12.5px; font-weight:600; padding:6px 14px; border-radius:20px;}
   .macroGrid{display:grid; grid-template-columns: 1fr 1fr; gap:12px;}
-  .macroCard{border-radius:16px; padding:16px; position:relative; color:#fff; overflow:hidden;}
+  .macroCard{border-radius:20px; padding:16px; position:relative; color:#fff; overflow:hidden; box-shadow: var(--shadow-sm);}
   .macroCard.protein{background: linear-gradient(135deg, #ff7a8f 0%, #c73a56 100%);}
   .macroCard.carbs{background: linear-gradient(135deg, #22d1cc 0%, #0f8f8c 100%);}
   .macroCard .icon{width:34px; height:34px; border-radius:10px; background:rgba(255,255,255,0.2); display:flex; align-items:center; justify-content:center; font-size:16px; margin-bottom:12px;}
@@ -76,26 +78,26 @@
   .macroCard .bar-fill{height:100%; background:#fff; border-radius:3px;}
   .macroCard .goalText{font-size:11.5px; opacity:0.8; margin-top:8px;}
   .statRow{display:grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 22px;}
-  .statBox{background: var(--panel-2); border:1px solid var(--line); border-radius:8px; padding: 12px 14px;}
+  .statBox{background: var(--panel); border:none; box-shadow: var(--shadow-sm); border-radius:14px; padding: 13px 14px;}
   .statBox .n{font-family:'JetBrains Mono'; font-size:18px; font-weight:700;}
   .statBox .l{font-size:11px; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.05em; margin-top:2px;}
-  .card{background: var(--panel); border:1px solid var(--line); border-radius:10px; padding: 18px; margin-bottom: 18px;}
+  .card{background: var(--panel); border:none; box-shadow: var(--shadow); border-radius:18px; padding: 20px; margin-bottom: 18px;}
   .card h2{font-family:'Rajdhani'; font-size:16px; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:14px; color: var(--text);}
   .grid4{display:grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap:8px;}
   .grid4 .field{margin-bottom:0;}
   .extraToggle{font-size:12px; color:var(--amber); cursor:pointer; margin:10px 0 0; display:inline-block;}
-  .scanBox{background: var(--panel-2); border:1px dashed var(--line); border-radius:8px; padding:12px; margin-bottom:16px;}
+  .scanBox{background: var(--panel-2); border:1.5px dashed #d8d5cc; border-radius:14px; padding:12px; margin-bottom:16px;}
   .scanRow{display:flex; gap:8px; flex-wrap:wrap;}
-  .scanBtn{background: var(--amber); color:#14161a; padding:9px 14px; border-radius:5px; font-size:13px; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:6px; white-space:nowrap;}
+  .scanBtn{background: var(--amber); color:#14161a; padding:10px 16px; border-radius:12px; font-size:13px; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:6px; white-space:nowrap; box-shadow: var(--shadow-sm);}
   .scanBtn:hover{background:#f0b258;}
   .scanBtn.busy{opacity:0.6; pointer-events:none;}
-  .scanWeightInput{flex:1; min-width:120px; background: var(--bg); border:1px solid var(--line); color: var(--text); padding:9px 10px; border-radius:5px; font-size:14px; font-family:'Inter';}
+  .scanWeightInput{flex:1; min-width:120px; background: var(--panel); border:1px solid var(--line); color: var(--text); padding:10px 12px; border-radius:12px; font-size:14px; font-family:'Inter';}
   .scanPreviewImg{max-height:90px; border-radius:6px; margin-top:10px; display:block;}
   .scanStatus{font-size:12px; color: var(--text-dim); margin-top:8px; min-height:14px;}
   .scanStatus.err{color: var(--red);}
   .scanStatus.ok{color: var(--green);}
   .extraGrid{display:grid; grid-template-columns: 1fr 1fr 1fr; gap:8px; margin-top:10px;}
-  .addBtn{margin-top: 14px; background: var(--amber); color:#14161a; border:none; padding:10px 18px; border-radius:5px; font-weight:600; font-size:13px; cursor:pointer; font-family:'Inter';}
+  .addBtn{margin-top: 14px; background: var(--amber); color:#14161a; border:none; padding:11px 20px; border-radius:12px; font-weight:600; font-size:13px; cursor:pointer; font-family:'Inter'; box-shadow: var(--shadow-sm);}
   .addBtn:hover{background:#f0b258;}
   .addBtn:disabled{opacity:0.5; cursor:not-allowed;}
   .logItem{display:flex; justify-content:space-between; align-items:center; padding: 10px 4px; border-bottom: 1px solid var(--line); font-size: 13px;}
@@ -106,16 +108,16 @@
   .logItem .del:hover{color: var(--red);}
   .empty{color:var(--text-dim); font-size:13px; padding: 10px 0;}
   .calHeader{display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;}
-  .calHeader button{background:none; border:1px solid var(--line); color:var(--text); padding:6px 12px; border-radius:5px; cursor:pointer;}
+  .calHeader button{background: var(--panel-2); border:none; color:var(--text); padding:7px 14px; border-radius:10px; cursor:pointer;}
   .calTitle{font-family:'Rajdhani'; font-weight:600; letter-spacing:0.04em; text-transform:uppercase;}
   .calGrid{display:grid; grid-template-columns: repeat(7, 1fr); gap:6px;}
   .calDow{text-align:center; font-size:10px; color:var(--text-dim); text-transform:uppercase; padding-bottom:4px;}
-  .calCell{aspect-ratio: 1; border-radius:6px; background: var(--panel-2); border:1px solid var(--line); display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; font-family:'JetBrains Mono'; font-size:12px; position:relative;}
+  .calCell{aspect-ratio: 1; border-radius:10px; background: var(--panel-2); border:1px solid transparent; display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; font-family:'JetBrains Mono'; font-size:12px; position:relative; transition: border-color 0.15s;}
   .calCell.empty-cell{background:transparent; border:none; cursor:default;}
   .calCell:hover{border-color: var(--amber);}
   .calCell.hasData::after{content:''; width:5px; height:5px; border-radius:50%; background: var(--green); position:absolute; bottom:5px;}
   .calCell.today{border-color: var(--amber); color: var(--amber);}
-  .dayDetail{margin-top:16px; background: var(--panel); border:1px solid var(--line); border-radius:10px; padding:16px;}
+  .dayDetail{margin-top:16px; background: var(--panel); border:none; box-shadow: var(--shadow); border-radius:18px; padding:16px;}
   .dayDetail h3{font-family:'Rajdhani'; text-transform:uppercase; letter-spacing:0.04em; margin-bottom:10px;}
   .goalsGrid{display:grid; grid-template-columns: 1fr 1fr 1fr; gap:10px;}
   .saveMsg{font-size:12px; color: var(--green); margin-top:10px; min-height:14px;}
@@ -157,7 +159,7 @@
     .logItem .macros{font-size:11px;}
     .goalsGrid{grid-template-columns:1fr; gap:8px;}
     .calGrid{gap:4px;}
-    .calCell{font-size:11px; border-radius:5px;}
+    .calCell{font-size:11px; border-radius:8px;}
     .calDow{font-size:9px;}
     .calHeader button{padding:5px 10px;}
     .dayDetail{padding:14px;}
@@ -290,7 +292,7 @@ import {
 // BYTT UT MED DITT EGET FIREBASE-PROSJEKT (Firebase Console -> Project settings -> SDK setup and configuration)
 // ======================================================================
 const firebaseConfig = {
- apiKey: "AIzaSyD4rmteTHELgUHjMwnE1O5r-_x-BO45OCc",
+  apiKey: "AIzaSyD4rmteTHELgUHjMwnE1O5r-_x-BO45OCc",
   authDomain: "tsj-cal.firebaseapp.com",
   databaseURL: "https://tsj-cal-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "tsj-cal",
@@ -452,7 +454,7 @@ function calorieRingHTML(consumed, goal){
   return `
     <div class="ringSvgWrap">
       <svg viewBox="0 0 200 200" width="220" height="220">
-        <circle cx="100" cy="100" r="${r}" fill="none" stroke="#2b2e34" stroke-width="14"/>
+        <circle cx="100" cy="100" r="${r}" fill="none" stroke="#eeece5" stroke-width="14"/>
         <circle cx="100" cy="100" r="${r}" fill="none" stroke="${color}" stroke-width="14"
           stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${offset}"
           transform="rotate(-90 100 100)"/>
