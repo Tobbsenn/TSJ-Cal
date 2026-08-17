@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="no">
 <head>
@@ -221,7 +220,7 @@
               📷 Skann næringstabell
               <input type="file" id="scanFile" accept="image/*" capture="environment" style="display:none;">
             </label>
-            <input id="scanWeight" type="number" min="0" placeholder="Vekt spist (g)" class="scanWeightInput">
+            <input id="scanWeight" type="number" min="0" placeholder="Mengde (g eller ml)" class="scanWeightInput">
           </div>
           <img id="scanPreview" class="scanPreviewImg" style="display:none;">
           <div class="scanStatus" id="scanStatus"></div>
@@ -291,7 +290,7 @@ import {
 // BYTT UT MED DITT EGET FIREBASE-PROSJEKT (Firebase Console -> Project settings -> SDK setup and configuration)
 // ======================================================================
 const firebaseConfig = {
-    apiKey: "AIzaSyD4rmteTHELgUHjMwnE1O5r-_x-BO45OCc",
+ apiKey: "AIzaSyD4rmteTHELgUHjMwnE1O5r-_x-BO45OCc",
   authDomain: "tsj-cal.firebaseapp.com",
   databaseURL: "https://tsj-cal-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "tsj-cal",
@@ -323,8 +322,11 @@ function escapeHTML(str){
   d.textContent = str;
   return d.innerHTML;
 }
+function round1(n){
+  return Math.round((Number(n) || 0) * 10) / 10;
+}
 function sumEntries(entries, key){
-  return entries.reduce((s, e) => s + (Number(e[key]) || 0), 0);
+  return round1(entries.reduce((s, e) => s + (Number(e[key]) || 0), 0));
 }
 
 // ---------- FIRESTORE HELPERS ----------
@@ -514,7 +516,7 @@ async function renderToday(){
       <div class="logItem">
         <div>
           <div class="name">${escapeHTML(e.name)}</div>
-          <div class="macros">${e.cal} kcal · P ${e.prot}g · K ${e.carb}g${e.fat ? ' · F ' + e.fat + 'g' : ''}</div>
+          <div class="macros">${Math.round(e.cal)} kcal · P ${round1(e.prot)}g · K ${round1(e.carb)}g${e.fat ? ' · F ' + round1(e.fat) + 'g' : ''}</div>
         </div>
         <button class="del" data-id="${e.id}">✕</button>
       </div>
@@ -549,14 +551,14 @@ document.getElementById('scanFile').addEventListener('change', async (ev) => {
   const btnLabel = document.getElementById('scanBtnLabel');
   const preview = document.getElementById('scanPreview');
   const weightInput = document.getElementById('scanWeight');
-  const vektGram = Number(weightInput.value);
+  const mengde = Number(weightInput.value);
 
   preview.src = URL.createObjectURL(file);
   preview.style.display = 'block';
 
-  if(!vektGram || vektGram <= 0){
+  if(!mengde || mengde <= 0){
     statusEl.className = 'scanStatus err';
-    statusEl.textContent = 'Fyll inn hvor mange gram du spiste/skal spise først.';
+    statusEl.textContent = 'Fyll inn hvor mange gram eller ml du spiste/drakk først.';
     ev.target.value = '';
     return;
   }
@@ -567,29 +569,32 @@ document.getElementById('scanFile').addEventListener('change', async (ev) => {
 
   try{
     const bildePart = await fileToGenerativePart(file);
-    const prompt = 'Analyser dette bildet av en næringsdeklarasjon (baksiden av en matvare). ' +
+    const prompt = 'Analyser dette bildet av en næringsdeklarasjon, enten fra en matvare eller en drikke. ' +
+      'Tabellen kan være oppgitt per 100 gram (vanlig for fast føde) eller per 100 milliliter (vanlig for drikke som juice, brus, melk osv). ' +
+      'Finn ut hvilken enhet tabellen bruker. Hvis begge finnes, bruk per 100ml for drikkevarer og per 100g for fast føde. ' +
       'Svar KUN med gyldig JSON, uten forklaring eller markdown, i dette nøyaktige formatet: ' +
-      '{"navn": "<kort produktnavn/beskrivelse>", "kalorier": <tall>, "protein": <tall>, "karbohydrater": <tall>, "fett": <tall>}. ' +
-      'Alle tallverdier skal være per 100 gram. Bruk 0 hvis en verdi ikke finnes på bildet.';
+      '{"navn": "<kort produktnavn/beskrivelse>", "enhet": "g eller ml", "kalorier": <tall>, "protein": <tall>, "karbohydrater": <tall>, "fett": <tall>}. ' +
+      'Alle tallverdier skal være per 100 enheter (100g eller 100ml, avhengig av "enhet"). Bruk 0 hvis en verdi ikke finnes på bildet.';
 
     const result = await model.generateContent([prompt, bildePart]);
     let responseText = result.response.text().trim();
     responseText = responseText.replace(/^```json\s*/i, '').replace(/^```\s*/, '').replace(/```$/, '').trim();
     const n100 = JSON.parse(responseText);
 
-    const faktor = vektGram / 100;
+    const faktor = mengde / 100;
+    const enhet = (n100.enhet === 'ml') ? 'ml' : 'g';
     document.getElementById('fName').value = n100.navn || '';
     document.getElementById('fCal').value = Math.round((Number(n100.kalorier) || 0) * faktor);
-    document.getElementById('fProt').value = (Number(n100.protein) || 0) * faktor;
-    document.getElementById('fCarb').value = (Number(n100.karbohydrater) || 0) * faktor;
-    document.getElementById('fFat').value = (Number(n100.fett) || 0) * faktor;
+    document.getElementById('fProt').value = round1((Number(n100.protein) || 0) * faktor);
+    document.getElementById('fCarb').value = round1((Number(n100.karbohydrater) || 0) * faktor);
+    document.getElementById('fFat').value = round1((Number(n100.fett) || 0) * faktor);
     if((Number(n100.fett) || 0) > 0){
       document.getElementById('extraGrid').style.display = 'grid';
       document.getElementById('extraToggle').textContent = '– Skjul ekstra felt';
     }
 
     statusEl.className = 'scanStatus ok';
-    statusEl.textContent = `Ferdig! Regnet ut for ${vektGram}g. Sjekk tallene og trykk "Legg til".`;
+    statusEl.textContent = `Ferdig! Regnet ut for ${mengde}${enhet} (tabell oppgitt per 100${enhet}). Sjekk tallene og trykk "Legg til".`;
   } catch(e){
     console.error('Skannefeil', e);
     statusEl.className = 'scanStatus err';
@@ -718,7 +723,7 @@ async function showDayDetail(iso){
         <div class="logItem">
           <div>
             <div class="name">${escapeHTML(e.name)}</div>
-            <div class="macros">${e.cal} kcal · P ${e.prot}g · K ${e.carb}g</div>
+            <div class="macros">${Math.round(e.cal)} kcal · P ${round1(e.prot)}g · K ${round1(e.carb)}g</div>
           </div>
         </div>
       `).join('')
