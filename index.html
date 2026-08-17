@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="no">
 <head>
@@ -290,21 +291,20 @@ import {
 // BYTT UT MED DITT EGET FIREBASE-PROSJEKT (Firebase Console -> Project settings -> SDK setup and configuration)
 // ======================================================================
 const firebaseConfig = {
-  apiKey: "AIzaSyD4rmteTHELgUHjMwnE1O5r-_x-BO45OCc",
+    apiKey: "AIzaSyD4rmteTHELgUHjMwnE1O5r-_x-BO45OCc",
   authDomain: "tsj-cal.firebaseapp.com",
   databaseURL: "https://tsj-cal-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "tsj-cal",
   storageBucket: "tsj-cal.firebasestorage.app",
   messagingSenderId: "1059035966632",
   appId: "1:1059035966632:web:edb0fcf1e1438eb462669d",
-  measurementId: "G-8J6HMZ7FCK"
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const ai = getAI(app, { backend: new GoogleAIBackend() });
-const model = getGenerativeModel(ai, { model: "gemini-2.5-flash" });
+const model = getGenerativeModel(ai, { model: "gemini-3.6-flash" });
 
 let currentUser = null; // Firebase user object
 let goals = { calories: 2200, protein: 150, carbs: 250 };
