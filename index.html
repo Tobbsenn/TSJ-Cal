@@ -13,7 +13,7 @@
     --panel-2: #f5f4f1;
     --line: #ebe9e4;
     --text: #232323;
-    --text-dim: #8a8781;
+    --text-dim: #6b675f;
     --amber: #e8963d;
     --green: #2fae72;
     --red: #e0674f;
@@ -86,6 +86,25 @@
   .grid4{display:grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap:8px;}
   .grid4 .field{margin-bottom:0;}
   .extraToggle{font-size:12px; color:var(--amber); cursor:pointer; margin:10px 0 0; display:inline-block;}
+  .presetHeaderBtn{width:100%; display:flex; justify-content:space-between; align-items:center; background:none; border:none; padding:0; cursor:pointer; font-family:'Rajdhani'; font-size:16px; text-transform:uppercase; letter-spacing:0.05em; color:var(--text);}
+  .presetHeaderBtn .chev{font-size:13px; color:var(--text-dim); transition: transform 0.15s;}
+  .presetHeaderBtn.open .chev{transform: rotate(180deg);}
+  .presetList{margin-top:14px;}
+  .presetItem{display:flex; justify-content:space-between; align-items:center; gap:10px; padding:10px 0; border-bottom:1px solid var(--line); flex-wrap:wrap;}
+  .presetItem:last-child{border-bottom:none;}
+  .presetInfo{flex:1; min-width:140px;}
+  .presetName{font-weight:600; font-size:13.5px;}
+  .presetMacros{font-size:11.5px; color:var(--text-dim); font-family:'JetBrains Mono'; margin-top:2px;}
+  .presetControls{display:flex; align-items:center; gap:6px;}
+  .presetQty{width:48px; text-align:center; background: var(--panel-2); border:1px solid var(--line); border-radius:8px; padding:7px 4px; font-size:13px; color:var(--text); font-family:'Inter';}
+  .presetAddBtn{background: var(--panel-2); color: var(--amber); border:1.5px solid var(--amber); padding:7px 12px; border-radius:10px; font-size:12.5px; font-weight:600; cursor:pointer; white-space:nowrap;}
+  .presetAddBtn:hover{background: var(--amber); color:#14161a;}
+  .presetAddBtn.justAdded{background: var(--green); border-color: var(--green); color:#fff;}
+  .creatineCard{display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;}
+  .creatineTitle{font-family:'Rajdhani'; font-weight:700; font-size:15px; text-transform:uppercase; letter-spacing:0.04em;}
+  .creatineSub{font-size:12px; color:var(--text-dim); margin-top:2px;}
+  .creatineBtn{background: var(--panel-2); color: var(--amber); border:1.5px solid var(--amber); padding:9px 16px; border-radius:12px; font-size:13px; font-weight:600; cursor:pointer;}
+  .creatineBtn.taken{background: var(--green); border-color: var(--green); color:#fff;}
   .scanBox{background: var(--panel-2); border:1.5px dashed #d8d5cc; border-radius:14px; padding:12px; margin-bottom:16px;}
   .scanRow{display:flex; gap:8px; flex-wrap:wrap;}
   .scanBtn{background: var(--amber); color:#14161a; padding:10px 16px; border-radius:12px; font-size:13px; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:6px; white-space:nowrap; box-shadow: var(--shadow-sm);}
@@ -213,6 +232,23 @@
     <div class="view active" id="view-today">
       <div class="cluster" id="gaugeCluster"></div>
       <div class="statRow" id="statRow"></div>
+
+      <div class="card creatineCard" id="creatineCardWrap" style="display:none;">
+        <div>
+          <div class="creatineTitle">💊 Kreatin</div>
+          <div class="creatineSub" id="creatineSub">—</div>
+        </div>
+        <button class="creatineBtn" id="creatineBtn">Merk som tatt</button>
+      </div>
+
+      <div class="card">
+        <button class="presetHeaderBtn" id="presetToggle">
+          🍽 Vanlige måltider
+          <span class="chev">▾</span>
+        </button>
+        <div class="presetList" id="presetList" style="display:none;"></div>
+      </div>
+
       <div class="card">
         <h2>Registrer måltid</h2>
 
@@ -268,6 +304,13 @@
           <div class="field"><label>Protein (g)</label><input id="gProt" type="number" min="0"></div>
           <div class="field"><label>Karbohydrater (g)</label><input id="gCarb" type="number" min="0"></div>
         </div>
+      </div>
+      <div class="card">
+        <h2>Kosttilskudd</h2>
+        <div class="field">
+          <label>Kreatin — daglig dose (g)</label>
+          <input id="gCreatine" type="number" min="0" step="0.1" placeholder="F.eks. 5 (la stå tomt hvis du ikke bruker kreatin)">
+        </div>
         <button class="addBtn" id="saveGoalsBtn">Lagre mål</button>
         <div class="saveMsg" id="goalsMsg"></div>
       </div>
@@ -308,8 +351,25 @@ const ai = getAI(app, { backend: new GoogleAIBackend() });
 const model = getGenerativeModel(ai, { model: "gemini-3.6-flash" });
 
 let currentUser = null; // Firebase user object
-let goals = { calories: 2200, protein: 150, carbs: 250 };
+let goals = { calories: 2200, protein: 150, carbs: 250, creatineDose: 0 };
 let calState = { year: null, month: null };
+
+const PRESET_FOODS = [
+  { name: 'Brødskive, naturell', unit: '1 skive', cal: 65, prot: 2, carb: 12, fat: 0.5 },
+  { name: 'Brødskive med kjøttpålegg', unit: '1 skive', cal: 110, prot: 6, carb: 12, fat: 4 },
+  { name: 'Brødskive med ost', unit: '1 skive', cal: 150, prot: 7, carb: 12, fat: 8 },
+  { name: 'Brødskive med leverpostei', unit: '1 skive', cal: 140, prot: 5, carb: 12, fat: 8 },
+  { name: 'Brødskive med syltetøy', unit: '1 skive', cal: 90, prot: 2, carb: 18, fat: 1 },
+  { name: 'Toast (skinke/ost)', unit: '1 stk', cal: 300, prot: 15, carb: 28, fat: 14 },
+  { name: 'Egg, kokt/stekt', unit: '1 stk', cal: 78, prot: 6.5, carb: 0.5, fat: 5.5 },
+  { name: 'Havregrøt med melk', unit: '1 skål', cal: 250, prot: 9, carb: 40, fat: 5 },
+  { name: 'Yoghurt naturell', unit: '1 beger (150g)', cal: 95, prot: 5, carb: 7, fat: 5 },
+  { name: 'Banan', unit: '1 stk', cal: 105, prot: 1.3, carb: 27, fat: 0.3 },
+  { name: 'Kaffe med melk', unit: '1 kopp', cal: 20, prot: 1, carb: 1.5, fat: 1 },
+  { name: 'Ris, kokt', unit: '1 porsjon (150g)', cal: 195, prot: 4, carb: 43, fat: 0.5 },
+  { name: 'Kyllingfilet, stekt', unit: '1 porsjon (150g)', cal: 250, prot: 46, carb: 0, fat: 6 },
+  { name: 'Pasta, kokt', unit: '1 porsjon (200g)', cal: 260, prot: 9, carb: 50, fat: 1.5 }
+];
 
 function todayISO(){
   const d = new Date();
@@ -412,10 +472,13 @@ onAuthStateChanged(auth, async (user) => {
 
 async function enterApp(){
   const rec = await getUserDoc();
-  if(rec && rec.goals) goals = rec.goals;
+  if(rec && rec.goals) goals = { creatineDose: 0, ...rec.goals };
   document.getElementById('gCal').value = goals.calories;
   document.getElementById('gProt').value = goals.protein;
   document.getElementById('gCarb').value = goals.carbs;
+  document.getElementById('gCreatine').value = goals.creatineDose || '';
+
+  renderPresetList();
 
   document.getElementById('dateLabel').textContent = fmtDateLabel(todayISO());
   await renderToday();
@@ -510,6 +573,20 @@ async function renderToday(){
     <div class="statBox"><div class="n">${sugar}g</div><div class="l">Sukker</div></div>
   `;
 
+  const creatineWrap = document.getElementById('creatineCardWrap');
+  const creatineBtn = document.getElementById('creatineBtn');
+  if(goals.creatineDose && goals.creatineDose > 0){
+    creatineWrap.style.display = 'flex';
+    const taken = !!(log.creatine && log.creatine.taken);
+    document.getElementById('creatineSub').textContent = taken
+      ? `Tatt i dag · ${log.creatine.dose}g`
+      : `${goals.creatineDose}g / dag`;
+    creatineBtn.textContent = taken ? '✓ Tatt i dag' : 'Merk som tatt';
+    creatineBtn.classList.toggle('taken', taken);
+  } else {
+    creatineWrap.style.display = 'none';
+  }
+
   const listEl = document.getElementById('logList');
   if(entries.length === 0){
     listEl.innerHTML = '<div class="empty">Ingenting registrert ennå i dag.</div>';
@@ -533,6 +610,68 @@ async function renderToday(){
     });
   }
 }
+
+// ---------- KREATIN ----------
+document.getElementById('creatineBtn').addEventListener('click', async () => {
+  const date = todayISO();
+  const log = await getDayLog(date);
+  const taken = !!(log.creatine && log.creatine.taken);
+  log.creatine = taken ? { taken: false, dose: 0 } : { taken: true, dose: goals.creatineDose };
+  await saveDayLog(date, log);
+  await renderToday();
+});
+
+// ---------- VANLIGE MÅLTIDER ----------
+function renderPresetList(){
+  const listEl = document.getElementById('presetList');
+  listEl.innerHTML = PRESET_FOODS.map((f, i) => `
+    <div class="presetItem">
+      <div class="presetInfo">
+        <div class="presetName">${escapeHTML(f.name)}</div>
+        <div class="presetMacros">${f.cal} kcal · P ${f.prot}g · K ${f.carb}g per ${f.unit}</div>
+      </div>
+      <div class="presetControls">
+        <input type="number" min="1" value="1" step="1" class="presetQty" id="presetQty-${i}">
+        <button class="presetAddBtn" id="presetAdd-${i}">+ Legg til</button>
+      </div>
+    </div>
+  `).join('');
+
+  PRESET_FOODS.forEach((f, i) => {
+    document.getElementById('presetAdd-' + i).addEventListener('click', async () => {
+      const qtyInput = document.getElementById('presetQty-' + i);
+      const qty = Math.max(1, Number(qtyInput.value) || 1);
+      const date = todayISO();
+      const log = await getDayLog(date);
+      log.entries = log.entries || [];
+      log.entries.push({
+        id: Date.now().toString(36) + Math.random().toString(36).slice(2,6),
+        name: qty > 1 ? `${qty}x ${f.name}` : f.name,
+        cal: Math.round(f.cal * qty),
+        prot: round1(f.prot * qty),
+        carb: round1(f.carb * qty),
+        fat: round1(f.fat * qty),
+        fiber: 0, sugar: 0
+      });
+      await saveDayLog(date, log);
+
+      const btn = document.getElementById('presetAdd-' + i);
+      btn.textContent = '✓ Lagt til';
+      btn.classList.add('justAdded');
+      setTimeout(() => { btn.textContent = '+ Legg til'; btn.classList.remove('justAdded'); }, 1200);
+
+      await renderToday();
+    });
+  });
+}
+
+document.getElementById('presetToggle').addEventListener('click', () => {
+  const listEl = document.getElementById('presetList');
+  const toggleBtn = document.getElementById('presetToggle');
+  const showing = listEl.style.display !== 'none';
+  listEl.style.display = showing ? 'none' : 'block';
+  toggleBtn.classList.toggle('open', !showing);
+});
 
 // ---------- SKANN NÆRINGSTABELL MED GEMINI ----------
 async function fileToGenerativePart(file){
@@ -642,7 +781,8 @@ document.getElementById('saveGoalsBtn').addEventListener('click', async () => {
   const newGoals = {
     calories: Number(document.getElementById('gCal').value) || 0,
     protein: Number(document.getElementById('gProt').value) || 0,
-    carbs: Number(document.getElementById('gCarb').value) || 0
+    carbs: Number(document.getElementById('gCarb').value) || 0,
+    creatineDose: Number(document.getElementById('gCreatine').value) || 0
   };
   const msg = document.getElementById('goalsMsg');
   try{
